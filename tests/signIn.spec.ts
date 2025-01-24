@@ -1,10 +1,53 @@
 import { test, expect } from '@playwright/test';
+import HomePage from '../pom/pages/HomePage';
+import SignInForm from '../pom/forms/SignInForm';
+import { credentials } from '../test-data/usersData';
 
-test.beforeEach(async ({ page }) => {
-    await page.goto('/');
-    await page.getByText('Sign In').click();
+test.describe.only('Sign In Form POM', () => {
+    let homePage: HomePage;
+    let signInForm: SignInForm;
 
+    test.beforeEach(async ({ page }) => {
+        homePage = new HomePage(page);
+        signInForm = new SignInForm(page);
+
+        await homePage.open();
+        await homePage.clickSignInButton();
+    })
+
+    test('Sign in without email', async () => {
+        await signInForm.triggerErrorOnField('email');
+        await signInForm.verifyErrorMessageByText('Email required');
+    });
+
+    test('Sign in without password', async () => {
+        await signInForm.triggerErrorOnField('password');
+        await signInForm.verifyErrorMessageByText('Password required');
+    });
+
+    test('Sign in with invalid email', async () => {
+        await signInForm.enterEmail('test@test');
+        await signInForm.triggerErrorOnField('email');
+        await signInForm.verifyErrorMessageByText('Email is incorrect');
+    });
+
+    test('Sign in with incorrect credentials', async () => {
+        await signInForm.loginWithCredentials('test@test.test', '12312424fs3');
+        await signInForm.verifyWrongDataMessage();
+    });
+
+    test('Sign in with correct credentials', async ({ page }) => {
+        await signInForm.loginWithCredentials(credentials.userOne.email, credentials.userOne.password);
+
+        await expect(page).toHaveURL('https://qauto.forstudy.space/panel/garage');
+        await expect(page).toHaveTitle('Hillel Qauto');
+        // await expect(page.locator('//app-garage')).toHaveScreenshot('Garage-one-car.png');
+        //   await expect(page).toHaveScreenshot('Garage-full-page.png');
+
+    });
 })
+
+
 
 test.describe('Sign In Form', () => {
 

@@ -36,7 +36,7 @@ test.describe('Search', () => {
     });
 
 
-    test('Multiple elements', async ({ page }) => {
+    test('Multiple elements + Multiple pages/tabs handling', async ({ page, context }) => {
         const icons = page.locator('//a[@class="socials_link"]');
         const iconsCount = await icons.count();
         console.log('iconsCount' + iconsCount);
@@ -48,9 +48,27 @@ test.describe('Search', () => {
         // for (const icon of await icons.all()) {
         //     await icon.click();
         // }
-        await icons.first().click();
-        await icons.last().click();
 
+        const faceBookPromise = context.waitForEvent('page');
+        await icons.first().click();
+        const faceBookPage = await faceBookPromise;
+        await faceBookPage.waitForLoadState();
+        await expect(faceBookPage.getByText('Forgot password?')).toBeVisible();
+
+
+
+        const linkedinPromise = context.waitForEvent('page');
+        await icons.last().click();
+        const linkedinPage = await linkedinPromise;
+        await linkedinPage.waitForLoadState();
+        await expect(linkedinPage.getByText(' Already on Linkedin?')).toBeVisible();
+
+        await page.bringToFront();
+        await page.waitForTimeout(1000);
+        await faceBookPage.bringToFront();
+        await page.waitForTimeout(1000);
+        await linkedinPage.bringToFront();
+        await page.waitForTimeout(1000);
     });
 })
 

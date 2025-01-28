@@ -51,6 +51,12 @@ test.describe.only('Sign In Form POM', () => {
 
 test.describe('Sign In Form', () => {
 
+    test.beforeEach(async ({ page }) => {
+        await page.goto('/');
+        await page.getByText('Sign In').click();
+    })
+
+
     test('Sign in without email', async ({ page }) => {
         await page.locator('//input[@id="signinEmail"]').focus();
         await page.locator('//input[@id="signinEmail"]').blur();

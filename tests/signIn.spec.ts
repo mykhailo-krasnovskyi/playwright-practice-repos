@@ -37,7 +37,7 @@ test.describe.only('Sign In Form POM', () => {
     });
 
     test('Sign in with correct credentials', async ({ page }) => {
-        await signInForm.loginWithCredentials(credentials.userOne.email, credentials.userOne.password);
+        await signInForm.loginWithCredentials(credentials.randomUser.email, credentials.userOne.password);
 
         await expect(page).toHaveURL('https://qauto.forstudy.space/panel/garage');
         await expect(page).toHaveTitle('Hillel Qauto');

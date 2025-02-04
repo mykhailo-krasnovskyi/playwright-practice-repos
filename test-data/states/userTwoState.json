@@ -1,0 +1,75 @@
+{
+  "cookies": [
+    {
+      "name": "YSC",
+      "value": "FIupaYYlrp0",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "__Secure-ROLLOUT_TOKEN",
+      "value": "CP-23rzo7-CJFxCkzvSwyaqLAxikzvSwyaqLAw%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1754243178.13433,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_INFO1_LIVE",
+      "value": "JGmxK0OA1v0",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1754243178.134396,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "VISITOR_PRIVACY_METADATA",
+      "value": "CgJJTBIEGgAgbg%3D%3D",
+      "domain": ".youtube.com",
+      "path": "/",
+      "expires": 1754243178.134417,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "NID",
+      "value": "521=aN2Bs2i5L-tyG94yCjLaCG7DwD9WT9b6VulKmu8au42fEjZFof-iErQXX70SsGi8OoeG0fMELVg_KGZbazEsvNs_vG-tugmZhMfPGuNga7oh-tv7jtMAcY1Ow2SFGmnHqGbc2T11zmded6kD7tJswut_rVzWmbNUj9BaMoscoBRE-NOYAGnmM2QjD-8pLNiOzkA",
+      "domain": ".google.com",
+      "path": "/",
+      "expires": 1754502377.840589,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    },
+    {
+      "name": "sid",
+      "value": "s%3AD1XOwezRJnlexjfZsy8uMfJ7DpmykKf7.4xqErnpM%2F8aSvabVE%2FhsH1PExSN%2B0wElXOcbDqFzf%2Bo",
+      "domain": ".forstudy.space",
+      "path": "/",
+      "expires": 1738777579.197059,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://www.youtube.com",
+      "localStorage": [
+        {
+          "name": "ytidb::LAST_RESULT_ENTRY_KEY",
+          "value": "{\"data\":{\"hasSucceededOnce\":true},\"expiration\":1741283178538,\"creation\":1738691178539}"
+        }
+      ]
+    }
+  ]
+}

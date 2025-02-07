@@ -1,8 +1,8 @@
 import { test, expect, Page, chromium } from '@playwright/test';
-import HomePage from '../pom/pages/HomePage';
-import SignInForm from '../pom/forms/SignInForm';
-import GaragePage from '../pom/pages/GaragePage';
-import { credentials } from '../test-data/usersData';
+import HomePage from '../../pom/pages/HomePage';
+import SignInForm from '../../pom/forms/SignInForm';
+import GaragePage from '../../pom/pages/GaragePage';
+import { credentials } from '../../test-data/usersData';
 
 test.describe('Garage Page', () => {
     test.use({ storageState: './test-data/states/userOneState.json' });

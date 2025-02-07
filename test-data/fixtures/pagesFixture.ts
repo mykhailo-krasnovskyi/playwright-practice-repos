@@ -32,17 +32,24 @@ export const test = base.extend<fixturePages>({
         await use(garagePage);
     },
 
-    garagePageAsLoggedMainUserWithRemovingLastCar: async ({ page }, use) => {
+    garagePageAsLoggedMainUserWithRemovingLastCar: async ({ browser }, use) => {
+
+        const context = await browser.newContext({
+            storageState: './test-data/states/userOneState.json'
+        });
+        const page = await context.newPage();
+
         homePage = new HomePage(page);
         signInForm = new SignInForm(page);
         garagePage = new GaragePage(page);
 
-        await homePage.open();
-        await homePage.clickSignInButton();
-        await signInForm.loginWithCredentials(credentials.userOne.email, credentials.userOne.password);
-
+        // await homePage.open();
+        // await homePage.clickSignInButton();
+        // await signInForm.loginWithCredentials(credentials.userOne.email, credentials.userOne.password);
+        await garagePage.open();
         await use(garagePage);
 
         await garagePage.removeLastAddedCar();
+        await page.close();
     },
 })

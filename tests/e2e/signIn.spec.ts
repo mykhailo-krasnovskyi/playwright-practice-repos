@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
-import HomePage from '../pom/pages/HomePage';
-import SignInForm from '../pom/forms/SignInForm';
-import { credentials } from '../test-data/usersData';
+import HomePage from '../../pom/pages/HomePage';
+import SignInForm from '../../pom/forms/SignInForm';
+import { credentials } from '../../test-data/usersData';
 
 test.describe.only('Sign In Form POM', () => {
     let homePage: HomePage;

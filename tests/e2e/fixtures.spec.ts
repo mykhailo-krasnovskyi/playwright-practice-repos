@@ -1,8 +1,8 @@
 // import { test } from '../test-data/fixutres/fixtureBase';
-import { test } from '../test-data/fixtures/index';
+import { test } from '../../test-data/fixtures/index';
 test.describe('Garage Page with Fixtures', () => {
 
-    test.only('Add BMW X6', async ({ garagePageAsLoggedMainUserWithRemovingLastCar, pageSmall }) => {
+    test.only('Add BMW X6', async ({ garagePageAsLoggedMainUserWithRemovingLastCar }) => {
         test.step('Add [BMW X6] Car to Garage', async () => {
             await garagePageAsLoggedMainUserWithRemovingLastCar.addCarByBrandAndModel('BMW', 'X6', '500');
         })

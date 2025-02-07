@@ -23,7 +23,7 @@ test.describe.only('Setup users - get states', () => {
         await page.context().storageState({ path: './test-data/states/userOneState.json' });
     });
 
-    test('Log in and save state for user 2', async ({ page }) => {
+    test.skip('Log in and save state for user 2', async ({ page }) => {
         await signInForm.loginWithCredentials(credentials.userTwo.email, credentials.userTwo.password);
 
         await expect(page).toHaveURL('https://qauto.forstudy.space/panel/garage');

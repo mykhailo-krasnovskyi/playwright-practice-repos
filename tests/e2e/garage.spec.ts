@@ -10,27 +10,15 @@ test.describe('Garage Page', () => {
     let homePage: HomePage;
     let signInForm: SignInForm;
     let garagePage: GaragePage;
-    // let page: Page;
-    // test.beforeAll(async () => {
-    //     const browser = await chromium.launch();
-    //     const ctx = await browser.newContext({
-    //         storageState: 'userOneState.json'
-    //     });
-    //     page = await ctx.newPage();
-    // })
-
-
 
     test.beforeEach(async ({ page }) => {
         homePage = new HomePage(page);
         signInForm = new SignInForm(page);
         garagePage = new GaragePage(page);
 
-        // await homePage.open();
-        // await homePage.clickSignInButton();
-        // await signInForm.loginWithCredentials(credentials.userOne.email, credentials.userOne.password);
         await garagePage.open();
     })
+    
     test('Add BMW X6', async () => {
         test.step('Add [BMW X6] Car to Garage', async () => {
             await garagePage.addCarByBrandAndModel('BMW', 'X6', '500');

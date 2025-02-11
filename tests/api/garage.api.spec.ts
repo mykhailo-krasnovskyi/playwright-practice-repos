@@ -1,9 +1,12 @@
 import test, { expect } from "@playwright/test";
 import { credentials } from "../../test-data/usersData";
-
+import AuthController from "../../api-controllers/AuthController";
+import CarsController from "../../api-controllers/CarsController";
 
 test.describe(('Garage tests'), () => {
-    let globalAuthHeader: string;
+    let authController: AuthController;
+    let globalAuthHeader;
+    let carsController: CarsController;
     let addedCarsIds: any[] = [];
     let carsToAdd = [{
         "carBrandId": 1,
@@ -16,104 +19,63 @@ test.describe(('Garage tests'), () => {
         "mileage": 555
     }]
 
+    test.beforeEach(async ({ request }) => {
+        authController = new AuthController(request);
+        carsController = new CarsController(request);
+    })
+
     test.beforeAll(async ({ request }) => {
-        const responseAuth = await request.post('/api/auth/signin', {
-            data: {
-                "email": credentials.userOne.email,
-                "password": credentials.userOne.password,
-                "remember": false
-            }
-        });
-        globalAuthHeader = responseAuth.headers()['set-cookie'].split(';')[0];
+        carsController = new CarsController(request);
+        authController = new AuthController(request);
+        globalAuthHeader = await authController.signInAndGetCookie(credentials.userOne.email, credentials.userOne.password);
         expect(globalAuthHeader).toBeDefined();
 
         for (const car of carsToAdd) {
-            const responseAddCar = await request.post('/api/cars', {
-                data: car,
-                headers: {
-                    'Cookie': globalAuthHeader
-                }
-            });
-            const responseAddCarJson = await responseAddCar.json();
-            addedCarsIds.push(responseAddCarJson.data.id);
-
+            const responseAddCar = await carsController.addCar(car.carBrandId, car.carModelId, car.mileage, globalAuthHeader);
+            addedCarsIds.push(responseAddCar.data.id);
         }
-
-        console.log(addedCarsIds);
     })
 
-    test('Edit an existing car - change mileage[/api/cars{id} ]', async ({ request }) => {
+    test('Edit an existing car - change mileage[/api/cars{id} ]', async () => {
         const newCar = {
             "mileage": 99999
         }
-        const responseChangeCar = await request.put(`/api/cars/${addedCarsIds[0]}`, {
-            data: newCar,
-            headers: {
-                'Cookie': globalAuthHeader
-            }
-        });
-        const responseChangeCarJson = await responseChangeCar.json();
+        const responseChangeCar = await carsController.editCar(addedCarsIds[0], globalAuthHeader, undefined, undefined, newCar.mileage
+        )
 
-        expect(responseChangeCarJson.data.id).toBe(addedCarsIds[0]);
-        expect(responseChangeCarJson.data.mileage).toBe(99999);
+        expect(responseChangeCar.data.id).toBe(addedCarsIds[0]);
+        expect(responseChangeCar.data.mileage).toBe(99999);
     });
 
-    test('Add a car - BMW X5 [/api/cars]', async ({ request }) => {
+    test('Add a car - BMW X5 [/api/cars]', async () => {
         const newCar = {
             "carBrandId": 2,
             "carModelId": 8,
             "mileage": 168223
         }
-        const responseAddCar = await request.post(`/api/cars`, {
-            data: newCar,
-            headers: {
-                'Cookie': globalAuthHeader
-            }
-        });
-        const responseAddCarJson = await responseAddCar.json();
-        expect(responseAddCarJson.data.brand).toBe('BMW');
-        expect(responseAddCarJson.data.carModelId).toBe(newCar.carModelId);
-        expect(responseAddCarJson.data.id).toBeDefined();
+        const responseAddCar = await carsController.addCar(newCar.carBrandId, newCar.carModelId, newCar.mileage, globalAuthHeader);
+        expect(responseAddCar.data.brand).toBe('BMW');
+        expect(responseAddCar.data.carModelId).toBe(newCar.carModelId);
+        expect(responseAddCar.data.id).toBeDefined();
     });
 
-    test('Add a car - Ford Fiesta [/api/cars]', async ({ request }) => {
+    test('Add a car - Ford Fiesta [/api/cars]', async () => {
         const newCar = {
             "carBrandId": 3,
             "carModelId": 11,
             "mileage": 168223
         }
-        const responseAddCar = await request.post(`/api/cars`, {
-            data: newCar,
-            headers: {
-                'Cookie': globalAuthHeader
-            }
-        });
-        const responseAddCarJson = await responseAddCar.json();
-        expect(responseAddCarJson.data.brand).toBe('Ford');
-        expect(responseAddCarJson.data.carModelId).toBe(newCar.carModelId);
-        expect(responseAddCarJson.data.id).toBeDefined();
+        const responseAddCar = await carsController.addCar(newCar.carBrandId, newCar.carModelId, newCar.mileage, globalAuthHeader);
+        expect(responseAddCar.data.brand).toBe('Ford');
+        expect(responseAddCar.data.carModelId).toBe(newCar.carModelId);
+        expect(responseAddCar.data.id).toBeDefined();
     });
 
     test.afterAll(async ({ request }) => {
-        const responseGetCars = await request.get('/api/cars', {
-            headers: {
-                'Cookie': globalAuthHeader
-            }
+        // carsController = new CarsController(request);
 
-        });
-        const responseGetCarsJson = await responseGetCars.json();
-        const cars = responseGetCarsJson.data;
-
-        for (const car of cars) {
-            const responseRemoveCar = await request.delete(`/api/cars/${car.id}`, {
-                headers: {
-                    'Cookie': globalAuthHeader
-                }
-            });
-
-            const responseRemoveCarJson = await responseRemoveCar.json();
-            expect(responseRemoveCarJson.data.carId).toBe(car.id);
-        }
+        // const cars = await carsController.getUserCars(globalAuthHeader);
+        // await carsController.removeCars(cars, globalAuthHeader);
     })
 
 })

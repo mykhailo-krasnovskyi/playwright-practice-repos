@@ -2,7 +2,7 @@ import { expect, Locator, Page } from "@playwright/test";
 
 export default class GaragePage {
     readonly page: Page;
-    readonly addCarButton: Locator;
+    // readonly addCarButton: Locator;
     readonly brandDropdown: Locator;
     readonly modelDropdown: Locator;
     readonly mileageField: Locator;
@@ -16,7 +16,7 @@ export default class GaragePage {
 
     constructor(page: Page) {
         this.page = page;
-        this.addCarButton = page.locator('//button[@class="btn btn-primary"]');
+        //  this.addCarButton = page.locator('//button[@class="btn btn-primary"]');
         this.brandDropdown = page.locator('//select[@id="addCarBrand"]');
         this.modelDropdown = page.locator('//select[@id="addCarModel"]');
         this.mileageField = page.locator('//input[@id="addCarMileage"]');
@@ -27,6 +27,11 @@ export default class GaragePage {
         this.removeCarButton = page.locator('//button[@class="btn btn-outline-danger"]');
         this.approveRemoveButton = page.locator('//button[@class="btn btn-danger"]');
         this.carRemoveNotification = page.locator('//div[@class="alert alert-success"]//p[text()="Car removed"]');
+    }
+
+
+    get addCarButton() {
+        return this.page.locator('//button[@class="btn btn-primary"]');
     }
 
     async open() {

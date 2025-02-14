@@ -17,6 +17,10 @@ export default class SignInForm {
         this.wrongDataMessage = page.locator('//p[contains(@class, "alert-danger")]');
     }
 
+    async getEmailErrorMessageText() {
+        console.log(await this.emailField.locator('//..//p').textContent())
+    }
+
     async triggerErrorOnField(fieldName: string) {
         const field = fieldName === 'email' ? this.emailField : this.passwordField;
         await field.focus();

@@ -45,6 +45,13 @@ test.describe.only('Sign In Form POM', () => {
         //   await expect(page).toHaveScreenshot('Garage-full-page.png');
 
     });
+
+    test('Test locator', async () => {
+        await signInForm.enterEmail('42');
+        await signInForm.triggerErrorOnField('email');
+        await signInForm.getEmailErrorMessageText();
+        // await signInForm.verifyErrorMessageByText('Email is incorrect');
+    });
 })
 
 
